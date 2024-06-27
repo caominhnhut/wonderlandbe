@@ -34,4 +34,3 @@ public class AuthenticationService implements UserDetailsService{
         return new MyUserDetail(userEntity);
     }
 }
-https://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@github.com/caominhnhut/coffeeshopbe.git
