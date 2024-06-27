@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="insert-users-data" author="nhut.nguyen">
+        <insert tableName="users">
+            <column name="first_name" value="Fadmin"/>
+            <column name="last_name" value="Ladmin"/>
+            <column name="email" value="admin@yopmail.com"/>
+            <column name="status" value="ACTIVATED"/>
+            <column name="password" value="$2a$10$jlS5Y2q16Y1oKHM/fQI/0u9v09t312jiOPjFYlRH/aYmiqs0HCop6"/>
+        </insert>
+        <insert tableName="users">
+            <column name="first_name" value="Femployee"/>
+            <column name="last_name" value="Lemployee"/>
+            <column name="email" value="employee@yopmail.com"/>
+            <column name="status" value="ACTIVATED"/>
+            <column name="password" value="$2a$10$jlS5Y2q16Y1oKHM/fQI/0u9v09t312jiOPjFYlRH/aYmiqs0HCop6"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
