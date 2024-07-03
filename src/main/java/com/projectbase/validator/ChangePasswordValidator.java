@@ -2,9 +2,6 @@ package com.projectbase.validator;
 
 import static com.projectbase.factory.Utility.validatePassword;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import com.projectbase.dto.ChangePasswordRequestDto;
@@ -31,7 +28,7 @@ public class ChangePasswordValidator implements Validator<ChangePasswordRequestD
         }
 
         if(!validatePassword(changePasswordRequestDto.getNewPassword())){
-            throw new ValidationException(new Error(ErrorCodes.CREATE_USER_INVALID_PASSWORD));
+            throw new ValidationException(new Error(ErrorCodes.INVALID_PASSWORD));
         }
     }
 }

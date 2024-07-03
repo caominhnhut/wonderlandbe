@@ -2,6 +2,7 @@ package com.projectbase.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import com.projectbase.dto.ForgotPasswordRequestDto;
 import com.projectbase.dto.ResponseDto;
 import com.projectbase.dto.UserRequest;
 import com.projectbase.dto.UserResponse;
+import com.projectbase.factory.UserRoleName;
 import com.projectbase.factory.UserStatus;
 import com.projectbase.factory.ValidationType;
 import com.projectbase.mapper.UserMapper;
@@ -44,13 +46,14 @@ public class UserController{
     private ValidatorProvider validatorProvider;
 
     @PostMapping
-    public ResponseEntity<ResponseDto<Long>> createUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<ResponseDto<Long>> userRegister(@RequestBody UserRequest userRequest) {
 
-        log.info("create user with data: " + userRequest);
+        log.info("Register an user with data: {}", userRequest);
 
         validatorProvider.execute(ValidationType.USER_CREATION, userRequest);
 
         User user = userMapper.toUser(userRequest);
+        user.setRoles(Set.of(UserRoleName.CUSTOMER.toString()));
         User newlyUser = userService.create(user);
         return ResponseEntity.ok(ResponseDto.response(newlyUser.getId()));
     }
