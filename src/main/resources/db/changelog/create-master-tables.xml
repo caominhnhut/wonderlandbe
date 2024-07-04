@@ -73,7 +73,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(255)" />
-            <column name="created_by" type="bigint"/>
+            <column name="created_by" type="varchar(100)"/>
+            <column name="updated_by" type="varchar(100)"/>
             <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
                 <constraints nullable="false"/>
             </column>
@@ -97,7 +98,8 @@
             <column name="cost_price" type="decimal" />
             <column name="price" type="decimal" />
             <column name="description" type="text" />
-            <column name="created_by" type="bigint"/>
+            <column name="created_by" type="varchar(100)"/>
+            <column name="updated_by" type="varchar(100)"/>
             <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
                 <constraints nullable="false"/>
             </column>
@@ -143,24 +145,6 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
-        <addForeignKeyConstraint baseColumnNames="created_by"
-                                 baseTableName="category"
-                                 constraintName="fk_category_created_by_users_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="users"/>
-
-        <addForeignKeyConstraint baseColumnNames="created_by"
-                                 baseTableName="product"
-                                 constraintName="fk_product_created_by_users_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="users"/>
-
-        <addForeignKeyConstraint baseColumnNames="created_by"
-                                 baseTableName="bill"
-                                 constraintName="fk_bill_created_by_users_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="users"/>
 
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="users_roles"
