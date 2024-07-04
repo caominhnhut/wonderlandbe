@@ -4,8 +4,11 @@ package com.projectbase.mapper;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.stereotype.Component;
 
 import com.projectbase.dto.CategoryDto;
@@ -29,6 +32,9 @@ public interface ProductMapper{
 
     @Mapping(target = "categoryIds", expression = "java(getCategoriesFromProductEntity(productEntity.getCategories()))")
     Product fromProductEntity(ProductEntity productEntity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateFromProduct(Product product, @MappingTarget ProductEntity productEntity);
 
     default Set<Long> getCategoriesFromProductEntity(Set<CategoryEntity> categoryEntities) {
         return categoryEntities.stream().map(CategoryEntity::getId).collect(Collectors.toSet());

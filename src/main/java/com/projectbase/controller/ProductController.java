@@ -14,15 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projectbase.dto.CategoryDto;
 import com.projectbase.dto.ProductDto;
 import com.projectbase.dto.ResponseDto;
 import com.projectbase.factory.ValidationType;
-import com.projectbase.mapper.CategoryMapper;
 import com.projectbase.mapper.ProductMapper;
-import com.projectbase.model.Category;
 import com.projectbase.model.Product;
-import com.projectbase.service.CategoryService;
 import com.projectbase.service.ProductService;
 import com.projectbase.validator.ValidatorProvider;
 

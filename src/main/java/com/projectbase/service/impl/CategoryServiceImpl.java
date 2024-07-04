@@ -44,8 +44,7 @@ public class CategoryServiceImpl implements CategoryService{
         Optional<CategoryEntity> entityOpt = categoryRepository.findById(category.getId());
         if(entityOpt.isPresent()){
             CategoryEntity entity = entityOpt.get();
-            entity.setName(category.getName());
-            entity.setDescription(category.getDescription());
+            categoryMapper.updateFromCategory(category, entity);
             categoryRepository.save(entity);
         }else {
             throw new ApplicationException("Category not found");

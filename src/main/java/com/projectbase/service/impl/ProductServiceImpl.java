@@ -68,8 +68,7 @@ public class ProductServiceImpl implements ProductService{
         Optional<ProductEntity> entityOpt = productRepository.findById(product.getId());
         if(entityOpt.isPresent()){
             ProductEntity entity = entityOpt.get();
-            entity.setName(product.getName());
-            entity.setDescription(product.getDescription());
+            productMapper.updateFromProduct(product, entity);
             productRepository.save(entity);
         }else {
             throw new ApplicationException("Product not found");

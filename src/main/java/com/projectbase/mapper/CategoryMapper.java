@@ -1,6 +1,9 @@
 package com.projectbase.mapper;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.stereotype.Component;
 
 import com.projectbase.dto.CategoryDto;
@@ -18,4 +21,7 @@ public interface CategoryMapper{
     CategoryDto fromCategory(Category category);
 
     Category fromCategoryEntity(CategoryEntity categoryEntity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateFromCategory(Category category, @MappingTarget CategoryEntity categoryEntity);
 }
