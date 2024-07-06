@@ -22,6 +22,9 @@
             <column name="cost_price" type="decimal" />
             <column name="price" type="decimal" />
             <column name="description" type="text" />
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_by" type="varchar(100)"/>
             <column name="updated_by" type="varchar(100)"/>
             <column name="created_date" type="timestamp" defaultValueComputed="NOW()">

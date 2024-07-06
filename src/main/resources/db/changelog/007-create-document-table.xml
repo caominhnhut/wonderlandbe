@@ -6,22 +6,30 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="create-product-table.xml" author="nhut.nguyen">
-        <createTable tableName="product">
+    <changeSet id="create-document-table.xml" author="nhut.nguyen">
+        <createTable tableName="document">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" unique="true" primaryKey="true"/>
             </column>
-            <column name="name" type="varchar(100)">
+            <column name="document_name" type="varchar(100)"/>
+            <column name="file_name" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="formality" type="varchar(100)" />
-            <column name="sizes" type="varchar(100)" />
-            <column name="colors" type="varchar(100)" />
-            <column name="images" type="varchar(255)" />
-            <column name="amount" type="bigint"/>
-            <column name="cost_price" type="decimal" />
-            <column name="price" type="decimal" />
-            <column name="description" type="text" />
+            <column name="file_type" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_size" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_url" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_location" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_by" type="varchar(100)"/>
             <column name="updated_by" type="varchar(100)"/>
             <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
@@ -31,35 +39,5 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
-        <createTable tableName="categories_products">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" unique="true" primaryKey="true"/>
-            </column>
-            <column name="product_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="category_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_date" type="timestamp" defaultValueComputed="NOW()">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addForeignKeyConstraint baseColumnNames="product_id"
-                                 baseTableName="categories_products"
-                                 constraintName="fk_categories_products_to_product_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="product"/>
-
-        <addForeignKeyConstraint baseColumnNames="category_id"
-                                 baseTableName="categories_products"
-                                 constraintName="fk_categories_products_to_category_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="category"/>
     </changeSet>
 </databaseChangeLog>

@@ -22,7 +22,7 @@ import com.projectbase.dto.ResponseDto;
 import com.projectbase.dto.UserRequest;
 import com.projectbase.dto.UserResponse;
 import com.projectbase.factory.UserRoleName;
-import com.projectbase.factory.UserStatus;
+import com.projectbase.factory.EntityStatus;
 import com.projectbase.factory.ValidationType;
 import com.projectbase.mapper.UserMapper;
 import com.projectbase.model.User;
@@ -69,7 +69,7 @@ public class UserController{
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/status/active")
     public ResponseEntity<ResponseDto<List<UserResponse>>> findByStatus() {
-        List<User> users = userService.findByStatus(UserStatus.ACTIVATED);
+        List<User> users = userService.findByStatus(EntityStatus.ACTIVATED);
         List<UserResponse> userResponses = users.stream().map(user -> userMapper.fromUser(user)).collect(Collectors.toList());
         return ResponseEntity.ok(ResponseDto.response(userResponses));
     }

@@ -18,7 +18,6 @@ import lombok.Data;
 @Table(name = "roles")
 @Data
 @DynamicUpdate
-@DynamicInsert
 public class RoleEntity{
 
     @Id

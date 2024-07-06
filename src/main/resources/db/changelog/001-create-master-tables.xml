@@ -24,6 +24,8 @@
             <column name="status" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_by" type="varchar(100)"/>
+            <column name="updated_by" type="varchar(100)"/>
             <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
                 <constraints nullable="false"/>
             </column>
@@ -65,109 +67,37 @@
             </column>
         </createTable>
 
-        <createTable tableName="category">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" unique="true" primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="description" type="varchar(255)" />
-            <column name="created_by" type="varchar(100)"/>
-            <column name="updated_by" type="varchar(100)"/>
-            <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_date" type="timestamp" defaultValueComputed="NOW()">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <createTable tableName="product">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" unique="true" primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="formality" type="varchar(100)" />
-            <column name="sizes" type="varchar(100)" />
-            <column name="colors" type="varchar(100)" />
-            <column name="images" type="varchar(255)" />
-            <column name="amount" type="bigint"/>
-            <column name="cost_price" type="decimal" />
-            <column name="price" type="decimal" />
-            <column name="description" type="text" />
-            <column name="created_by" type="varchar(100)"/>
-            <column name="updated_by" type="varchar(100)"/>
-            <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_date" type="timestamp" defaultValueComputed="NOW()">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <createTable tableName="categories_products">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" unique="true" primaryKey="true"/>
-            </column>
-            <column name="product_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="category_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_date" type="timestamp" defaultValueComputed="NOW()">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <createTable tableName="bill">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" unique="true" primaryKey="true"/>
-            </column>
-            <column name="uuid" type="varchar(100)" />
-            <column name="name" type="varchar(100)" />
-            <column name="email" type="varchar(100)" />
-            <column name="contact_number" type="varchar(100)" />
-            <column name="payment_method" type="varchar(100)" />
-            <column name="total" type="decimal" />
-            <column name="detailed_bill" type="text" />
-            <column name="created_by" type="bigint"/>
-            <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_date" type="timestamp" defaultValueComputed="NOW()">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
+<!--        <createTable tableName="bill">-->
+<!--            <column name="id" type="bigint" autoIncrement="true">-->
+<!--                <constraints nullable="false" unique="true" primaryKey="true"/>-->
+<!--            </column>-->
+<!--            <column name="uuid" type="varchar(100)" />-->
+<!--            <column name="name" type="varchar(100)" />-->
+<!--            <column name="email" type="varchar(100)" />-->
+<!--            <column name="contact_number" type="varchar(100)" />-->
+<!--            <column name="payment_method" type="varchar(100)" />-->
+<!--            <column name="total" type="decimal" />-->
+<!--            <column name="detailed_bill" type="text" />-->
+<!--            <column name="created_by" type="bigint"/>-->
+<!--            <column name="created_date" type="timestamp" defaultValueComputed="NOW()">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="updated_date" type="timestamp" defaultValueComputed="NOW()">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--        </createTable>-->
 
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="users_roles"
-                                 constraintName="fk_users_roles_users_id"
+                                 constraintName="fk_users_roles_to_users"
                                  referencedColumnNames="id"
                                  referencedTableName="users"/>
 
         <addForeignKeyConstraint baseColumnNames="role_id"
                                  baseTableName="users_roles"
-                                 constraintName="fk_users_roles_roles_id"
+                                 constraintName="fk_users_roles_to_roles"
                                  referencedColumnNames="id"
                                  referencedTableName="roles"/>
 
-        <addForeignKeyConstraint baseColumnNames="product_id"
-                                 baseTableName="categories_products"
-                                 constraintName="fk_categories_products_product_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="product"/>
-
-        <addForeignKeyConstraint baseColumnNames="category_id"
-                                 baseTableName="categories_products"
-                                 constraintName="fk_categories_products_category_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="category"/>
     </changeSet>
 </databaseChangeLog>

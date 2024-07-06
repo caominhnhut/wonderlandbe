@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.projectbase.entity.UserEntity;
-import com.projectbase.factory.UserStatus;
+import com.projectbase.factory.EntityStatus;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
 
@@ -15,8 +15,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>{
     UserEntity findByEmail(@Param("email") String email);
 
     @Query("SELECT u FROM UserEntity u WHERE u.status = :status")
-    List<UserEntity> findByStatus(@Param("status") UserStatus status);
+    List<UserEntity> findByStatus(@Param("status") EntityStatus status);
 
     @Query("SELECT u FROM UserEntity u WHERE u.email = :email AND u.status = :status")
-    UserEntity findByEmailAndStatus(@Param("email") String email, @Param("status") UserStatus status);
+    UserEntity findByEmailAndStatus(@Param("email") String email, @Param("status") EntityStatus status);
 }

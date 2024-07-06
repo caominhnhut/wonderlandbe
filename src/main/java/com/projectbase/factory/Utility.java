@@ -1,5 +1,6 @@
 package com.projectbase.factory;
 
+import java.util.Calendar;
 import java.util.regex.Pattern;
 
 public class Utility{
@@ -28,5 +29,12 @@ public class Utility{
 
     public static boolean validateEmail(String email){
         return Utility.patternMatches(email, VALID_EMAIL_ADDRESS_REGEX);
+    }
+
+    public static String createUniqueName(String name) {
+
+        Long timeInMillis = Calendar.getInstance().getTimeInMillis();
+
+        return String.format("%s_%s", timeInMillis, name);
     }
 }

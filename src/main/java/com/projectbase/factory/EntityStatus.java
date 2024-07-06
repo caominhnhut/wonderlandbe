@@ -1,6 +1,7 @@
 package com.projectbase.factory;
 
-public enum UserStatus{
+public enum EntityStatus{
     ACTIVATED,
-    INACTIVE
+    INACTIVE,
+    PENDING
 }

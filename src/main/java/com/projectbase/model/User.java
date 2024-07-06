@@ -2,7 +2,7 @@ package com.projectbase.model;
 
 import java.util.Set;
 
-import com.projectbase.factory.UserStatus;
+import com.projectbase.factory.EntityStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class User{
 
     private String password;
 
-    private UserStatus status;
+    private EntityStatus status;
 
     private Set<String> roles;
 }

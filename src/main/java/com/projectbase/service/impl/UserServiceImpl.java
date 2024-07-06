@@ -16,7 +16,7 @@ import com.projectbase.entity.RoleEntity;
 import com.projectbase.entity.UserEntity;
 import com.projectbase.exception.ValidationException;
 import com.projectbase.factory.MessageSendingType;
-import com.projectbase.factory.UserStatus;
+import com.projectbase.factory.EntityStatus;
 import com.projectbase.mapper.UserMapper;
 import com.projectbase.model.MessageContent;
 import com.projectbase.model.User;
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
         UserEntity userEntity = userMapper.toUserEntity(user);
 
         userEntity.setPassword(encryptedPassword);
-        userEntity.setStatus(UserStatus.ACTIVATED);
+        userEntity.setStatus(EntityStatus.ACTIVATED);
 
         Set<RoleEntity> roles = roleRepository.findByNames(user.getRoles());
         userEntity.setRoles(roles);
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> findByStatus(UserStatus status){
+    public List<User> findByStatus(EntityStatus status){
         List<UserEntity> userEntities = userRepository.findByStatus(status);
         return userEntities.stream().map(userMapper::fromUserEntity).collect(Collectors.toList());
     }

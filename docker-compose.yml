@@ -4,6 +4,7 @@ services:
   db:
     platform: linux/x86_64
     image: mysql:5.7
+    container_name: wonderland-database
     volumes:
       - mysql-volume:/var/lib/mysql
     environment:

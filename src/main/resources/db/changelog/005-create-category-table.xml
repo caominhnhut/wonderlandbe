@@ -15,6 +15,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(255)" />
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_by" type="varchar(100)"/>
             <column name="updated_by" type="varchar(100)"/>
             <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
@@ -29,21 +32,25 @@
             <column name="name" value="Wooden"/>
             <column name="description" value="Wooden Toys"/>
             <column name="created_by" value="admin@yopmail.com"/>
+            <column name="status" value="ACTIVATED"/>
         </insert>
         <insert tableName="category">
             <column name="name" value="Plastic"/>
             <column name="description" value="Plastic Toys"/>
             <column name="created_by" value="admin@yopmail.com"/>
+            <column name="status" value="ACTIVATED"/>
         </insert>
         <insert tableName="category">
             <column name="name" value="Car"/>
             <column name="description" value="Cars, Trucks, Bus"/>
             <column name="created_by" value="admin@yopmail.com"/>
+            <column name="status" value="ACTIVATED"/>
         </insert>
         <insert tableName="category">
             <column name="name" value="Lego"/>
             <column name="description" value="Lego Toys"/>
             <column name="created_by" value="admin@yopmail.com"/>
+            <column name="status" value="ACTIVATED"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

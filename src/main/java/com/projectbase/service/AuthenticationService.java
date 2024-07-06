@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.projectbase.entity.UserEntity;
 import com.projectbase.exception.AuthenticationException;
-import com.projectbase.factory.UserStatus;
+import com.projectbase.factory.EntityStatus;
 import com.projectbase.model.MyUserDetail;
 import com.projectbase.repository.UserRepository;
 
@@ -24,7 +24,7 @@ public class AuthenticationService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
 
-        UserEntity userEntity = userRepository.findByEmailAndStatus(username, UserStatus.ACTIVATED);
+        UserEntity userEntity = userRepository.findByEmailAndStatus(username, EntityStatus.ACTIVATED);
 
         if(userEntity == null){
             log.error("{} not found", username);
