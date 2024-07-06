@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create-category-table" author="nhut.nguyen">
+        <createTable tableName="category">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)" />
+            <column name="created_by" type="varchar(100)"/>
+            <column name="updated_by" type="varchar(100)"/>
+            <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_date" type="timestamp" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="category">
+            <column name="name" value="Wooden"/>
+            <column name="description" value="Wooden Toys"/>
+            <column name="created_by" value="admin@yopmail.com"/>
+        </insert>
+        <insert tableName="category">
+            <column name="name" value="Plastic"/>
+            <column name="description" value="Plastic Toys"/>
+            <column name="created_by" value="admin@yopmail.com"/>
+        </insert>
+        <insert tableName="category">
+            <column name="name" value="Car"/>
+            <column name="description" value="Cars, Trucks, Bus"/>
+            <column name="created_by" value="admin@yopmail.com"/>
+        </insert>
+        <insert tableName="category">
+            <column name="name" value="Lego"/>
+            <column name="description" value="Lego Toys"/>
+            <column name="created_by" value="admin@yopmail.com"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
