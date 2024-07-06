@@ -18,8 +18,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.projectbase.entity.DocumentEntity;
+import com.projectbase.exception.ApplicationException;
 import com.projectbase.exception.ValidationException;
+import com.projectbase.factory.DocumentType;
 import com.projectbase.factory.EntityStatus;
+import com.projectbase.mapper.DocumentMapper;
 import com.projectbase.model.Document;
 import com.projectbase.repository.DocumentRepository;
 import com.projectbase.service.DocumentService;
@@ -36,12 +39,15 @@ public class DocumentServiceImpl implements DocumentService{
     @Value("${root.directory}")
     private String rootDirectory;
 
-    //Ex:  //download.url = /api/no-auth/documents/download?filename=uniqueFilename
+    //Ex:  //download.url = /api/%s/documents/%s/download?filename=uniqueFilename
     @Value("${download.url}")
     private String downloadUrl;
 
     @Autowired
     private DocumentRepository documentRepository;
+
+    @Autowired
+    private DocumentMapper documentMapper;
 
     @Override
     public Long storeDocument(Document document){
@@ -56,14 +62,16 @@ public class DocumentServiceImpl implements DocumentService{
 
         DocumentEntity documentEntity = DocumentEntity.builder()
                 .documentName(document.getDocumentName())
+                .documentType(document.getDocumentType())
                 .fileName(uniqueFilename)
                 .fileType(file.getContentType())
                 .fileSize(file.getSize())
-                .fileUrl(downloadUrl.concat(uniqueFilename).replace("%3F", "?"))
+                .fileUrl(generateDocumentUrl(uniqueFilename, document.getDocumentType()))
                 .fileLocation(fileLocation.toString())
                 .build();
 
         documentEntity.setStatus(EntityStatus.ACTIVATED);
+
         return documentRepository.save(documentEntity).getId();
     }
 
@@ -73,8 +81,22 @@ public class DocumentServiceImpl implements DocumentService{
     }
 
     @Override
-    public Document getDocumentByName(String filename){
-        return null;
+    public Document getDocumentByFilename(String filename){
+        DocumentEntity documentEntity = documentRepository.findByFilenameAndStatus(filename, EntityStatus.ACTIVATED);
+        if(documentEntity == null){
+            throw new ApplicationException(String.format("[%s] not found", filename));
+        }
+
+        Document document = documentMapper.fromDocumentEntity(documentEntity);
+
+        try{
+           byte[] fileContent = Files.readAllBytes(Paths.get(documentEntity.getFileLocation()));
+           document.setFileContent(fileContent);
+        }catch(IOException e){
+            throw new ApplicationException(String.format("Error when loading document [%s]", filename));
+        }
+
+        return document;
     }
 
     @Override
@@ -91,5 +113,10 @@ public class DocumentServiceImpl implements DocumentService{
         } catch (IOException e) {
             throw new ValidationException(String.format("Error while saving document: [%s]", e.getMessage()));
         }
+    }
+
+    private String generateDocumentUrl(String documentName, DocumentType documentType){
+        return String.format(downloadUrl.replace("%3F", "?"), documentType.getAuthentication(), documentType.toString().toLowerCase())
+                .concat(documentName);
     }
 }

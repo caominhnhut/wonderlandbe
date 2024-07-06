@@ -2,7 +2,11 @@ package com.projectbase.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
+
+import com.projectbase.factory.DocumentType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +23,10 @@ public class DocumentEntity extends BaseEntity{
 
     @Column(name = "document_name")
     private String documentName;
+
+    @Column(name = "document_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    protected DocumentType documentType;
 
     @Column(name = "file_name", nullable = false)
     private String fileName;

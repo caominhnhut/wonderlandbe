@@ -28,7 +28,10 @@ public enum ErrorCodes{
     CREATE_PRODUCT_MISSING_COST("400", "Cost is required", "The product creation requests must include the cost."),
     CREATE_PRODUCT_MISSING_PRICE("400", "Cost is required", "The product creation requests must include the price."),
 
-    INTERNAL_SERVER_ERROR("500", "Server Error", "Something went wrong. Please try again");
+    INTERNAL_SERVER_ERROR("500", "Server Error", "Something went wrong. Please try again"),
+
+    DOWNLOAD_DOCUMENT_MISSING_FILENAME("400", "Filename is required", "The downloading requires the name."),
+    DOWNLOAD_DOCUMENT_DOCUMENT_TYPE_NOT_SUPPORTED("400", "Document type is not supported", "The Document type is not supported.");
 
     private final HttpStatus httpStatus;
 

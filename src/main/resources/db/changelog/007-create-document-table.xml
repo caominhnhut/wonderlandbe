@@ -12,6 +12,9 @@
                 <constraints nullable="false" unique="true" primaryKey="true"/>
             </column>
             <column name="document_name" type="varchar(100)"/>
+            <column name="document_type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
             <column name="file_name" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>

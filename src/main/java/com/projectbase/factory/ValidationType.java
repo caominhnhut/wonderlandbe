@@ -9,4 +9,6 @@ public enum ValidationType{
     CATEGORY_CREATION,
     PRODUCT_CREATION,
     BILL_CREATION,
+
+    DOCUMENT_DOWNLOAD
 }

@@ -10,7 +10,7 @@ public interface DocumentService{
 
     void updateDocument(Document document);
 
-    Document getDocumentByName(String filename);
+    Document getDocumentByFilename(String filename);
 
     List<Document> getDocumentsByIds(List<Long> ids);
 }
