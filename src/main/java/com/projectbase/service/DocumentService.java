@@ -13,4 +13,6 @@ public interface DocumentService{
     Document getDocumentByFilename(String filename);
 
     List<Document> getDocumentsByIds(List<Long> ids);
+
+    byte[] getFileByName(String filename);
 }

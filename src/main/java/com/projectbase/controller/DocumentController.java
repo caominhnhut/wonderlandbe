@@ -1,12 +1,14 @@
 package com.projectbase.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,6 +52,34 @@ public class DocumentController{
         return ResponseEntity.ok(ResponseDto.response(documentId));
     }
 
+    @GetMapping(value = "/no-auth/documents/{document-type}/download")
+    public ResponseEntity downloadDocument(@PathVariable("document-type") String documentType, @RequestParam("filename") String filename) {
+
+        validatorProvider.execute(ValidationType.DOCUMENT_DOWNLOAD, DocumentDownloadRequestDto
+                .builder()
+                .fileName(filename)
+                .documentType(documentType)
+                .build()
+        );
+
+        byte[] fileContent = documentService.getFileByName(filename);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s", filename))
+                .body(new ByteArrayResource(fileContent));
+    }
+
+    @GetMapping(value = "documents")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ResponseDto<Document>> getDocumentByName(@RequestBody DocumentDownloadRequestDto dto) {
+
+        validatorProvider.execute(ValidationType.DOCUMENT_DOWNLOAD, dto);
+
+        Document document = documentService.getDocumentByFilename(dto.getFileName());
+
+        return ResponseEntity.ok(ResponseDto.response(document));
+    }
+
 //    @PostMapping(value = "/document/upload-files")
 //    @PreAuthorize("hasRole('ROLE_GUESS') or hasRole('ROLE_STUDENT') or hasRole('ROLE_TEACHER') or hasRole('ROLE_ADMIN')")
 //    public ResponseEntity<List<DocumentEntity>> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
@@ -66,19 +96,4 @@ public class DocumentController{
 //        return null;
 //    }
 //
-    @GetMapping(value = "/no-auth/documents/{document-type}/download")
-    public ResponseEntity<ResponseDto<Document>> downloadDocument(@PathVariable("document-type") String documentType, @RequestParam("filename") String filename) {
-
-        validatorProvider.execute(ValidationType.DOCUMENT_DOWNLOAD, DocumentDownloadRequestDto
-                .builder()
-                .fileName(filename)
-                .documentType(documentType)
-                .build()
-        );
-
-        Document document = documentService.getDocumentByFilename(filename);
-
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s", filename))
-                .body(ResponseDto.response(document));
-    }
 }

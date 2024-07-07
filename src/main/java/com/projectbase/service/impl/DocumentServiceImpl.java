@@ -104,6 +104,20 @@ public class DocumentServiceImpl implements DocumentService{
         return null;
     }
 
+    @Override
+    public byte[] getFileByName(String filename){
+        DocumentEntity documentEntity = documentRepository.findByFilenameAndStatus(filename, EntityStatus.ACTIVATED);
+        if(documentEntity == null){
+            throw new ApplicationException(String.format("[%s] not found", filename));
+        }
+
+        try{
+            return Files.readAllBytes(Paths.get(documentEntity.getFileLocation()));
+        }catch(IOException e){
+            throw new ApplicationException(String.format("Error when loading file [%s]", filename));
+        }
+    }
+
     private Path storeDocumentToDirectory(MultipartFile file, String filename, String directoryName) {
 
         try (InputStream inputStream = file.getInputStream()) {
