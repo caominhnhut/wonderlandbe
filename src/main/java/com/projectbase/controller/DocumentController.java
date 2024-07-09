@@ -1,5 +1,8 @@
 package com.projectbase.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -42,7 +45,7 @@ public class DocumentController{
         }
 
         Document document = Document.builder()
-                .multipartFile(file)
+                .multipartFiles(List.of(file))
                 .documentName(documentName)
                 .documentType(documentType)
                 .build();
@@ -53,7 +56,7 @@ public class DocumentController{
     }
 
     @GetMapping(value = "/no-auth/documents/{document-type}/download")
-    public ResponseEntity downloadDocument(@PathVariable("document-type") String documentType, @RequestParam("filename") String filename) {
+    public ResponseEntity downloadFileContent(@PathVariable("document-type") String documentType, @RequestParam("filename") String filename) {
 
         validatorProvider.execute(ValidationType.DOCUMENT_DOWNLOAD, DocumentDownloadRequestDto
                 .builder()
@@ -80,20 +83,22 @@ public class DocumentController{
         return ResponseEntity.ok(ResponseDto.response(document));
     }
 
-//    @PostMapping(value = "/document/upload-files")
-//    @PreAuthorize("hasRole('ROLE_GUESS') or hasRole('ROLE_STUDENT') or hasRole('ROLE_TEACHER') or hasRole('ROLE_ADMIN')")
-//    public ResponseEntity<List<DocumentEntity>> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-//
-//                List<DocumentEntity> fileEntities = Arrays.asList(files).stream().map(file -> {
-//                    try {
-//                        return documentService.storeImage(file);
-//                    } catch (ValidationException e) {
-//                        return new ResponseEntity<>(String.format("File not found: [%s]", e.getMessage()), HttpStatus.NOT_FOUND);
-//                    }
-//                }).collect(Collectors.toList());
-//
-//                return new ResponseEntity<>(fileEntities, HttpStatus.CREATED);
-//        return null;
-//    }
-//
+    @PutMapping(value = "/documents/multiple-upload")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ResponseDto<List<Long>>> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, @RequestParam( name = "document-name", required = false) String documentName, @RequestParam("document-type") DocumentType documentType) {
+
+        if(documentType == null){
+            throw new ValidationException("Document type is not provided");
+        }
+
+        Document document = Document.builder()
+                .multipartFiles(Arrays.asList(files))
+                .documentName(documentName)
+                .documentType(documentType)
+                .build();
+
+        List<Long> documentIds = documentService.storeDocumentsPerFiles(document);
+
+        return ResponseEntity.ok(ResponseDto.response(documentIds));
+    }
 }

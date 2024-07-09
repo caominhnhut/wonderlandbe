@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import com.projectbase.dto.DocumentDownloadRequestDto;
 import com.projectbase.dto.Error;
 import com.projectbase.dto.ErrorCodes;
-import com.projectbase.dto.ProductDto;
 import com.projectbase.exception.ValidationException;
 import com.projectbase.factory.DocumentType;
 import com.projectbase.factory.ValidationType;

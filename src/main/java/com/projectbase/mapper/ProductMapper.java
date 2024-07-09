@@ -11,12 +11,9 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.stereotype.Component;
 
-import com.projectbase.dto.CategoryDto;
-import com.projectbase.dto.ProductDto;
+import com.projectbase.dto.CreateProductRequestDto;
 import com.projectbase.entity.CategoryEntity;
 import com.projectbase.entity.ProductEntity;
-import com.projectbase.entity.RoleEntity;
-import com.projectbase.model.Category;
 import com.projectbase.model.Product;
 
 @Component
@@ -26,9 +23,9 @@ public interface ProductMapper{
     @Mapping(target = "categories", ignore = true)
     ProductEntity toProductEntity(Product product);
 
-    Product toProduct(ProductDto productDto);
+    Product toProduct(CreateProductRequestDto productDto);
 
-    ProductDto fromProduct(Product product);
+    CreateProductRequestDto fromProduct(Product product);
 
     @Mapping(target = "categoryIds", expression = "java(getCategoriesFromProductEntity(productEntity.getCategories()))")
     Product fromProductEntity(ProductEntity productEntity);

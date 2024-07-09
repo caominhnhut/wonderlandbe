@@ -1,6 +1,7 @@
 package com.projectbase.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +33,7 @@ public class Document{
 
     private byte[] fileContent;
 
-    private MultipartFile multipartFile;
+    private List<MultipartFile> multipartFiles;
 
     private EntityStatus status;
 

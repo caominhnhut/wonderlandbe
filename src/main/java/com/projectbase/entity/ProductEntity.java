@@ -12,6 +12,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Data
+@TypeDef(name = "json", typeClass = JsonStringType.class)
 public class ProductEntity extends BaseEntity{
 
     @Column(name = "name", nullable = false)
@@ -44,8 +50,9 @@ public class ProductEntity extends BaseEntity{
     @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "images")
-    private String images;
+    @Type(type = "json")
+    @Column(name = "metadata", columnDefinition = "json")
+    private ProductMetadata metadata;
 
     @Column(name = "amount")
     private int amount;

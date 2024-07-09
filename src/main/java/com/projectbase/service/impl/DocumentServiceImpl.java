@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,32 +53,25 @@ public class DocumentServiceImpl implements DocumentService{
     @Override
     public Long storeDocument(Document document){
 
-        MultipartFile file = document.getMultipartFile();
+        MultipartFile file = document.getMultipartFiles().stream().findFirst().orElseThrow(()->new ValidationException("File not provided"));
 
-        String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-        log.info("Uploading file has name [{}]", filename);
+        return documentRepository.save(buildDocumentEntity(file, document.getDocumentName(), document.getDocumentType())).getId();
+    }
 
-        String uniqueFilename = createUniqueName(filename);
-        Path fileLocation = storeDocumentToDirectory(file, uniqueFilename, DIRECTORY_PRODUCT_IMAGES_NAME);
+    @Override
+    public List<Long> storeDocumentsPerFiles(Document document){
 
-        DocumentEntity documentEntity = DocumentEntity.builder()
-                .documentName(document.getDocumentName())
-                .documentType(document.getDocumentType())
-                .fileName(uniqueFilename)
-                .fileType(file.getContentType())
-                .fileSize(file.getSize())
-                .fileUrl(generateDocumentUrl(uniqueFilename, document.getDocumentType()))
-                .fileLocation(fileLocation.toString())
-                .build();
+        List<DocumentEntity> documentEntities = document
+                .getMultipartFiles()
+                .stream()
+                .map(file -> buildDocumentEntity(file, document.getDocumentName(), document.getDocumentType()))
+                .collect(Collectors.toList());
 
-        documentEntity.setStatus(EntityStatus.ACTIVATED);
-
-        return documentRepository.save(documentEntity).getId();
+        return documentRepository.saveAll(documentEntities).stream().map(DocumentEntity::getId).collect(Collectors.toList());
     }
 
     @Override
     public void updateDocument(Document document){
-
     }
 
     @Override
@@ -132,5 +126,28 @@ public class DocumentServiceImpl implements DocumentService{
     private String generateDocumentUrl(String documentName, DocumentType documentType){
         return String.format(downloadUrl.replace("%3F", "?"), documentType.getAuthentication(), documentType.toString().toLowerCase())
                 .concat(documentName);
+    }
+
+    private DocumentEntity buildDocumentEntity(MultipartFile file, String documentName, DocumentType documentType){
+
+        String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        log.info("Generating a document with filename [{}]", filename);
+
+        String uniqueFilename = createUniqueName(filename);
+        Path fileLocation = storeDocumentToDirectory(file, uniqueFilename, DIRECTORY_PRODUCT_IMAGES_NAME);
+
+        DocumentEntity documentEntity = DocumentEntity.builder()
+                .documentName(documentName)
+                .documentType(documentType)
+                .fileName(uniqueFilename)
+                .fileType(file.getContentType())
+                .fileSize(file.getSize())
+                .fileUrl(generateDocumentUrl(uniqueFilename, documentType))
+                .fileLocation(fileLocation.toString())
+                .build();
+
+        documentEntity.setStatus(EntityStatus.ACTIVATED);
+
+        return documentEntity;
     }
 }

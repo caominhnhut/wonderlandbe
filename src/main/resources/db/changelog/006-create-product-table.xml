@@ -17,11 +17,11 @@
             <column name="formality" type="varchar(100)" />
             <column name="sizes" type="varchar(100)" />
             <column name="colors" type="varchar(100)" />
-            <column name="images" type="varchar(255)" />
             <column name="amount" type="bigint"/>
             <column name="cost_price" type="decimal" />
             <column name="price" type="decimal" />
             <column name="description" type="text" />
+            <column name="metadata" type="json" />
             <column name="status" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>

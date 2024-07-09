@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class ProductDto{
+public class CreateProductRequestDto{
 
     private Long id;
 
@@ -23,8 +23,6 @@ public class ProductDto{
     private String sizes;
 
     private String colors;
-
-    private String images;
 
     private int amount;
 

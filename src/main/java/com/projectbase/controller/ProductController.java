@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projectbase.dto.ProductDto;
+import com.projectbase.dto.CreateProductRequestDto;
 import com.projectbase.dto.ResponseDto;
 import com.projectbase.factory.ValidationType;
 import com.projectbase.mapper.ProductMapper;
@@ -37,7 +37,7 @@ public class ProductController{
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<ResponseDto<Long>> createProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<ResponseDto<Long>> createProduct(@RequestBody CreateProductRequestDto productDto) {
 
         validatorProvider.execute(ValidationType.PRODUCT_CREATION, productDto);
 
@@ -48,17 +48,17 @@ public class ProductController{
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDto<List<ProductDto>>> getAllProducts() {
+    public ResponseEntity<ResponseDto<List<CreateProductRequestDto>>> getAllProducts() {
 
         List<Product> products = productService.findAll();
 
-        List<ProductDto> productDtos = products.stream().map(productMapper::fromProduct).collect(Collectors.toList());
+        List<CreateProductRequestDto> productDtos = products.stream().map(productMapper::fromProduct).collect(Collectors.toList());
 
         return ResponseEntity.ok(ResponseDto.response(productDtos));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto<ProductDto>> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<ResponseDto<CreateProductRequestDto>> getById(@PathVariable("id") Long id) {
 
         Product product = productService.findById(id);
 
@@ -67,7 +67,7 @@ public class ProductController{
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto<Boolean>> updateProduct(@RequestBody ProductDto productDto, @PathVariable("id") Long productId) {
+    public ResponseEntity<ResponseDto<Boolean>> updateProduct(@RequestBody CreateProductRequestDto productDto, @PathVariable("id") Long productId) {
 
         productDto.setId(productId);
         Product product = productMapper.toProduct(productDto);
@@ -75,4 +75,15 @@ public class ProductController{
 
         return ResponseEntity.ok(ResponseDto.response(Boolean.TRUE));
     }
+
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PutMapping("/{id}/images")
+//    public ResponseEntity<ResponseDto<Boolean>> updateProductImages(@RequestBody CreateProductRequestDto productDto, @PathVariable("id") Long productId) {
+//
+//        productDto.setId(productId);
+//        Product product = productMapper.toProduct(productDto);
+//        productService.update(product);
+//
+//        return ResponseEntity.ok(ResponseDto.response(Boolean.TRUE));
+//    }
 }

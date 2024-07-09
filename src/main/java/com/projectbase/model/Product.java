@@ -38,8 +38,6 @@ public class Product{
 
     private String colors;
 
-    private String images;
-
     private int amount;
 
     private BigDecimal costPrice;

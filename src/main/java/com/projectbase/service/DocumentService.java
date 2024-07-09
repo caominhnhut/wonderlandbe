@@ -8,6 +8,8 @@ public interface DocumentService{
 
     Long storeDocument(Document document);
 
+    List<Long> storeDocumentsPerFiles(Document document);
+
     void updateDocument(Document document);
 
     Document getDocumentByFilename(String filename);

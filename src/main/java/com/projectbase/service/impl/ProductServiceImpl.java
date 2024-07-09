@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.projectbase.entity.CategoryEntity;
 import com.projectbase.entity.ProductEntity;
 import com.projectbase.exception.ApplicationException;
+import com.projectbase.factory.EntityStatus;
 import com.projectbase.mapper.ProductMapper;
 import com.projectbase.model.Product;
 import com.projectbase.repository.CategoryRepository;
@@ -40,6 +41,7 @@ public class ProductServiceImpl implements ProductService{
         }
 
         ProductEntity productEntity = productMapper.toProductEntity(product);
+        productEntity.setStatus(EntityStatus.ACTIVATED);
         productEntity.setCategories(categoryEntities);
         ProductEntity newlyProductEntity = productRepository.save(productEntity);
 
