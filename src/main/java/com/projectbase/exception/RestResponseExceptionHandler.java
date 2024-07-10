@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import com.projectbase.dto.Error;
 import com.projectbase.dto.ResponseDto;
 
@@ -25,7 +26,7 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(value = { InvalidDataAccessApiUsageException.class })
     protected ResponseEntity<ResponseDto<String>> handleInvalidDataAPI(InvalidDataAccessApiUsageException e, WebRequest webRequest){
         log.error("Invalid data error: {}", e.getMessage());
-
+        e.printStackTrace();
         ResponseDto<String> responseDto = new ResponseDto<>();
         responseDto.setErrors(List.of(new Error(INTERNAL_SERVER_ERROR)));
 
@@ -61,5 +62,4 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDto);
     }
-
 }

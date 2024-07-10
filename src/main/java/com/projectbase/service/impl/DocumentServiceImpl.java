@@ -51,15 +51,17 @@ public class DocumentServiceImpl implements DocumentService{
     private DocumentMapper documentMapper;
 
     @Override
-    public Long storeDocument(Document document){
+    public Document storeDocument(Document document){
 
         MultipartFile file = document.getMultipartFiles().stream().findFirst().orElseThrow(()->new ValidationException("File not provided"));
 
-        return documentRepository.save(buildDocumentEntity(file, document.getDocumentName(), document.getDocumentType())).getId();
+        DocumentEntity documentEntity = documentRepository.save(buildDocumentEntity(file, document.getDocumentName(), document.getDocumentType()));
+
+        return documentMapper.fromDocumentEntity(documentEntity);
     }
 
     @Override
-    public List<Long> storeDocumentsPerFiles(Document document){
+    public List<Document> storeDocumentsPerFiles(Document document){
 
         List<DocumentEntity> documentEntities = document
                 .getMultipartFiles()
@@ -67,7 +69,10 @@ public class DocumentServiceImpl implements DocumentService{
                 .map(file -> buildDocumentEntity(file, document.getDocumentName(), document.getDocumentType()))
                 .collect(Collectors.toList());
 
-        return documentRepository.saveAll(documentEntities).stream().map(DocumentEntity::getId).collect(Collectors.toList());
+        return documentRepository.saveAll(documentEntities)
+                .stream()
+                .map(d -> documentMapper.fromDocumentEntity(d))
+                .collect(Collectors.toList());
     }
 
     @Override

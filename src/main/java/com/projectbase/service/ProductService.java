@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.projectbase.model.Category;
 import com.projectbase.model.Product;
+import com.projectbase.model.ProductImagesToUpload;
 
 public interface ProductService{
 
@@ -14,4 +15,6 @@ public interface ProductService{
     Product findById(Long id);
 
     void update(Product product);
+
+    void storeProductImages(ProductImagesToUpload productImages);
 }

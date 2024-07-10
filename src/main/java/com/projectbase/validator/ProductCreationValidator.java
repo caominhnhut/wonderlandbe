@@ -2,7 +2,7 @@ package com.projectbase.validator;
 
 import org.springframework.stereotype.Component;
 
-import com.projectbase.dto.CreateProductRequestDto;
+import com.projectbase.dto.ProductDto;
 import com.projectbase.dto.Error;
 import com.projectbase.dto.ErrorCodes;
 import com.projectbase.exception.ValidationException;
@@ -11,7 +11,7 @@ import com.projectbase.factory.ValidationType;
 import liquibase.util.StringUtil;
 
 @Component
-public class ProductCreationValidator implements Validator<CreateProductRequestDto>{
+public class ProductCreationValidator implements Validator<ProductDto>{
 
     @Override
     public ValidationType getType(){
@@ -19,7 +19,7 @@ public class ProductCreationValidator implements Validator<CreateProductRequestD
     }
 
     @Override
-    public void validate(CreateProductRequestDto productDto){
+    public void validate(ProductDto productDto){
 
         if(StringUtil.isEmpty(productDto.getName())){
             throw new ValidationException(new Error(ErrorCodes.CREATE_PRODUCT_MISSING_NAME));

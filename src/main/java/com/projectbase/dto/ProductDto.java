@@ -3,6 +3,8 @@ package com.projectbase.dto;
 import java.math.BigDecimal;
 import java.util.Set;
 
+import com.projectbase.entity.ProductMetadata;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class CreateProductRequestDto{
+public class ProductDto{
 
     private Long id;
 
@@ -29,6 +31,8 @@ public class CreateProductRequestDto{
     private BigDecimal costPrice;
 
     private BigDecimal price;
+
+    private ProductMetadata metadata;
 
     private Set<Long> categoryIds;
 

@@ -1,7 +1,6 @@
 package com.projectbase.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 import com.projectbase.entity.DocumentEntity;

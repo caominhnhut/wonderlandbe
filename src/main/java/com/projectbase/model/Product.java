@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.projectbase.entity.CategoryEntity;
+import com.projectbase.entity.ProductMetadata;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,6 +44,8 @@ public class Product{
     private BigDecimal costPrice;
 
     private BigDecimal price;
+
+    private ProductMetadata metadata;
 
     private Set<Long> categoryIds;
 

@@ -1,5 +1,6 @@
 package com.projectbase.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @Data
 @TypeDef(name = "json", typeClass = JsonStringType.class)
-public class ProductEntity extends BaseEntity{
+public class ProductEntity extends BaseEntity implements Serializable{
 
     @Column(name = "name", nullable = false)
     private String name;

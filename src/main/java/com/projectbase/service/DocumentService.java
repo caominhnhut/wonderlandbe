@@ -6,9 +6,9 @@ import com.projectbase.model.Document;
 
 public interface DocumentService{
 
-    Long storeDocument(Document document);
+    Document storeDocument(Document document);
 
-    List<Long> storeDocumentsPerFiles(Document document);
+    List<Document> storeDocumentsPerFiles(Document document);
 
     void updateDocument(Document document);
 

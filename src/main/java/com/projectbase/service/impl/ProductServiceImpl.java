@@ -1,6 +1,8 @@
 package com.projectbase.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,12 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.projectbase.entity.CategoryEntity;
 import com.projectbase.entity.ProductEntity;
+import com.projectbase.entity.ProductMetadata;
 import com.projectbase.exception.ApplicationException;
+import com.projectbase.exception.ValidationException;
+import com.projectbase.factory.DocumentType;
 import com.projectbase.factory.EntityStatus;
 import com.projectbase.mapper.ProductMapper;
+import com.projectbase.model.Document;
 import com.projectbase.model.Product;
+import com.projectbase.model.ProductImagesToUpload;
 import com.projectbase.repository.CategoryRepository;
 import com.projectbase.repository.ProductRepository;
+import com.projectbase.service.DocumentService;
 import com.projectbase.service.ProductService;
 
 @Service
@@ -30,6 +38,9 @@ public class ProductServiceImpl implements ProductService{
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private DocumentService documentService;
 
     @Override
     @Transactional
@@ -75,5 +86,41 @@ public class ProductServiceImpl implements ProductService{
         }else {
             throw new ApplicationException("Product not found");
         }
+    }
+
+    @Override
+    @Transactional
+    public void storeProductImages(ProductImagesToUpload productImages){
+
+        Optional<ProductEntity> entityOpt = productRepository.findById(productImages.getProductId());
+        if(!entityOpt.isPresent()){
+            throw new ValidationException(String.format("Product not found for %s", productImages.getProductId()));
+        }
+
+        Document mainDocument = Document.builder()
+                .multipartFiles(List.of(productImages.getMainImage()))
+                .documentName("image-for-product-".concat(String.valueOf(productImages.getProductId())))
+                .documentType(DocumentType.PRODUCT_IMAGE)
+                .build();
+        Document mainImage = documentService.storeDocument(mainDocument);
+
+        Document extraDocument = Document.builder()
+                .multipartFiles(productImages.getExtraImages())
+                .documentName("extra-images-for-product-"+productImages.getProductId())
+                .documentType(DocumentType.PRODUCT_IMAGE)
+                .build();
+        List<Document> extraImages = documentService.storeDocumentsPerFiles(extraDocument);
+
+        Map<String, String> images = new HashMap<>();
+        images.put("mainImage", mainImage.getFileUrl());
+
+        for(int i=0; i<extraImages.size(); i++){
+            images.put("extraImage-"+i, extraImages.get(i).getFileUrl());
+        }
+
+        ProductEntity productEntity = entityOpt.get();
+        productEntity.setMetadata(ProductMetadata.builder().images(images).build());
+
+        productRepository.save(productEntity);
     }
 }

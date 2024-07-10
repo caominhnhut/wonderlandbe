@@ -2,6 +2,7 @@ package com.projectbase.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -50,7 +51,7 @@ public class DocumentController{
                 .documentType(documentType)
                 .build();
 
-        Long documentId = documentService.storeDocument(document);
+        Long documentId = documentService.storeDocument(document).getId();
 
         return ResponseEntity.ok(ResponseDto.response(documentId));
     }
@@ -97,7 +98,7 @@ public class DocumentController{
                 .documentType(documentType)
                 .build();
 
-        List<Long> documentIds = documentService.storeDocumentsPerFiles(document);
+        List<Long> documentIds = documentService.storeDocumentsPerFiles(document).stream().map(Document::getId).collect(Collectors.toList());
 
         return ResponseEntity.ok(ResponseDto.response(documentIds));
     }

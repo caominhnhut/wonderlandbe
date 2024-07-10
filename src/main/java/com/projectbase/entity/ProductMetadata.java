@@ -1,12 +1,18 @@
 package com.projectbase.entity;
 
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.Map;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class ProductMetadata{
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ProductMetadata implements Serializable{
 
-    Map<String, String> images = new HashMap<>();
+    Map<String, String> images;
 }
