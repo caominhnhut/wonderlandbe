@@ -8,6 +8,8 @@ import com.projectbase.dto.ForgotPasswordRequestDto;
 import com.projectbase.factory.EntityStatus;
 import com.projectbase.model.User;
 
+import liquibase.pro.packaged.S;
+
 public interface UserService{
 
     User create(User user);
@@ -23,4 +25,6 @@ public interface UserService{
     boolean changePassword(ChangePasswordRequestDto changePasswordRequestDto);
 
     void recoverPassword(ForgotPasswordRequestDto forgotPasswordRequestDto);
+
+    Optional<User> findByEmail(String email);
 }

@@ -17,7 +17,7 @@ import com.projectbase.dto.JwtResponse;
 import com.projectbase.dto.ResponseDto;
 import com.projectbase.exception.AuthenticationException;
 import com.projectbase.factory.JwtTokenUtil;
-import com.projectbase.service.AuthenticationService;
+import com.projectbase.service.impl.UserDetailsServiceImpl;
 
 @RestController
 @CrossOrigin
@@ -30,14 +30,14 @@ public class AuthenticationController{
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private AuthenticationService authenticationService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping(value = "/authenticate")
     public ResponseEntity<ResponseDto<JwtResponse>> login(@RequestBody JwtRequest authenticationRequest) {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        final UserDetails userDetails = authenticationService.loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 

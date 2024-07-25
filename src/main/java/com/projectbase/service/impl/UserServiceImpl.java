@@ -151,4 +151,16 @@ public class UserServiceImpl implements UserService{
 
         messageService.sendMessage(messageContent, MessageSendingType.EMAIL);
     }
+
+    @Override
+    public Optional<User> findByEmail(String email){
+        UserEntity userEntity = userRepository.findByEmail(email);
+        if(userEntity == null){
+            throw new ValidationException("User not found");
+        }
+
+        User user = userMapper.fromUserEntity(userEntity);
+
+        return Optional.of(user);
+    }
 }

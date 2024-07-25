@@ -19,12 +19,14 @@ import com.projectbase.entity.CategoryEntity;
 import com.projectbase.entity.ProductMetadata;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Product{
 
     private Long id;

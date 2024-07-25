@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.projectbase.service.AuthenticationService;
+import com.projectbase.service.impl.UserDetailsServiceImpl;
 
 import lombok.AllArgsConstructor;
 
@@ -28,7 +28,7 @@ public class WebSecurityConfig{
 
     private final UnauthorizedHandler unauthorizedHandler;
 
-    private final AuthenticationService authenticationService;
+    private final UserDetailsServiceImpl userDetailsService;
 
     private final JwtRequestFilter jwtRequestFilter;
 
@@ -58,7 +58,7 @@ public class WebSecurityConfig{
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationService jwtUserService) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsServiceImpl jwtUserService) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(jwtUserService)
                 .passwordEncoder(bCryptPasswordEncoder)
