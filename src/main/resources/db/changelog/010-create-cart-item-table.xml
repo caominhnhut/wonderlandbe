@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create-cart-item-table.xml" author="nhut.nguyen">
+        <createTable tableName="cart_item">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="session_id" type="bigint" />
+            <column name="product_id" type="bigint"/>
+            <column name="quantity" type="int"/>
+            <column name="created_date" type="timestamp" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_date" type="timestamp" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="session_id"
+                                 baseTableName="cart_item"
+                                 constraintName="fk_cart_item_to_shopping_session"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shopping_session"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="cart_item"
+                                 constraintName="fk_cart_item_to_product"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+    </changeSet>
+</databaseChangeLog>

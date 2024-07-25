@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -33,8 +35,8 @@ public class ProductEntity extends BaseEntity implements Serializable{
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "sku")
+    private String sku;
 
     @Column(name = "formality")
     private String formality;
@@ -45,18 +47,21 @@ public class ProductEntity extends BaseEntity implements Serializable{
     @Column(name = "colors")
     private String colors;
 
+    @Column(name = "amount")
+    private int amount;
+
     @Column(name = "cost_price")
     private BigDecimal costPrice;
 
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "description")
+    private String description;
+
     @Type(type = "json")
     @Column(name = "metadata", columnDefinition = "json")
     private ProductMetadata metadata;
-
-    @Column(name = "amount")
-    private int amount;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -65,4 +70,14 @@ public class ProductEntity extends BaseEntity implements Serializable{
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<CategoryEntity> categories;
+
+    @ManyToOne
+    @JoinColumn(name = "discount_id")
+    private DiscountEntity discount;
+
+    @OneToOne(mappedBy = "product")
+    private CartItemEntity cartItem;
+
+    @OneToOne(mappedBy = "product")
+    private OrderItemEntity orderItem;
 }

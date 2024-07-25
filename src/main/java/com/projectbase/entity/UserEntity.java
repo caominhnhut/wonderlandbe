@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -45,4 +46,9 @@ public class UserEntity extends BaseEntity{
     )
     private Set<RoleEntity> roles;
 
+    @OneToOne(mappedBy = "customer")
+    private ShoppingSessionEntity shoppingSession;
+
+    @OneToOne(mappedBy = "customer")
+    private OrdersEntity order;
 }
