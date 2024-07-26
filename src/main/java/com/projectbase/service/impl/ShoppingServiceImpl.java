@@ -142,6 +142,9 @@ public class ShoppingServiceImpl implements ShoppingService{
 
         shoppingSession = shoppingSessionRepository.save(shoppingSession);
 
+        cartItemEntity.setShoppingSession(shoppingSession);
+        cartItemRepository.save(cartItemEntity);
+
         return shoppingCartMapper.fromShoppingCartEntity(shoppingSession);
     }
 }

@@ -27,6 +27,8 @@ public class CartItemEntity extends CustomBaseEntity implements Serializable{
     @Column(name = "quantity")
     private Integer quantity;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "session_id")
     private ShoppingSessionEntity shoppingSession;

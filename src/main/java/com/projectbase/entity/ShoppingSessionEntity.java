@@ -15,7 +15,9 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "shopping_session")
@@ -32,6 +34,8 @@ public class ShoppingSessionEntity extends CustomBaseEntity implements Serializa
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private UserEntity customer;
 
-    @OneToMany(mappedBy = "shoppingSession", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(mappedBy = "shoppingSession", cascade = CascadeType.REMOVE)
     private Set<CartItemEntity> cartItems;
 }
