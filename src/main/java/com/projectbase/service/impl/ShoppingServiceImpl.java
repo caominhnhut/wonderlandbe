@@ -140,7 +140,7 @@ public class ShoppingServiceImpl implements ShoppingService{
 
         shoppingSession.setTotal(total);
 
-        shoppingSession = shoppingSessionRepository.save(shoppingSession);
+        shoppingSessionRepository.save(shoppingSession);
 
         cartItemEntity.setShoppingSession(shoppingSession);
         cartItemRepository.save(cartItemEntity);
