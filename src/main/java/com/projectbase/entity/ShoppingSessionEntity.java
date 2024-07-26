@@ -32,6 +32,6 @@ public class ShoppingSessionEntity extends CustomBaseEntity implements Serializa
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private UserEntity customer;
 
-    @OneToMany(mappedBy = "shoppingSession", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "shoppingSession", cascade = CascadeType.ALL)
     private Set<CartItemEntity> cartItems;
 }

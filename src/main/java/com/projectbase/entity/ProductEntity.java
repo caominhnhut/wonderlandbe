@@ -22,7 +22,9 @@ import com.vladmihalcea.hibernate.type.json.JsonStringType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "product")
@@ -75,6 +77,8 @@ public class ProductEntity extends BaseEntity implements Serializable{
     @JoinColumn(name = "discount_id")
     private DiscountEntity discount;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToOne(mappedBy = "product")
     private CartItemEntity cartItem;
 

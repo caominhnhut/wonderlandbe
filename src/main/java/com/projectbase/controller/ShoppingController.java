@@ -8,11 +8,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.projectbase.dto.CartItemDto;
 import com.projectbase.dto.ResponseDto;
 import com.projectbase.exception.ApplicationException;
+import com.projectbase.mapper.ShoppingCartMapper;
+import com.projectbase.model.CartItem;
 import com.projectbase.model.ShoppingCart;
 import com.projectbase.model.User;
 import com.projectbase.service.ShoppingService;
@@ -31,6 +36,9 @@ public class ShoppingController{
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ShoppingCartMapper shoppingCartMapper;
 
     @PostMapping("/shopping-cart")
     public ResponseEntity<ResponseDto<Long>> createShoppingSession(){
@@ -58,5 +66,14 @@ public class ShoppingController{
     public ResponseEntity<ResponseDto<Boolean>> deleteCartById(@PathVariable("cart-id") Long cartId){
         Boolean result = shoppingService.deleteById(cartId);
         return ResponseEntity.ok(ResponseDto.response(result));
+    }
+
+    @PutMapping("/shopping-cart/{cart-id}")
+    public ResponseEntity<ResponseDto<ShoppingCart>> addItemToCart(@PathVariable("cart-id") Long cartId, @RequestBody CartItemDto cartItemDto){
+
+        CartItem cartItem = shoppingCartMapper.toCartItem(cartItemDto);
+        ShoppingCart shoppingCart = shoppingService.addItemToCart(cartId, cartItem);
+
+        return ResponseEntity.ok(ResponseDto.response(shoppingCart));
     }
 }
