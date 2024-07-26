@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -31,6 +32,6 @@ public class ShoppingSessionEntity extends CustomBaseEntity implements Serializa
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private UserEntity customer;
 
-    @OneToMany(mappedBy = "shoppingSession")
+    @OneToMany(mappedBy = "shoppingSession", cascade = CascadeType.REMOVE)
     private Set<CartItemEntity> cartItems;
 }

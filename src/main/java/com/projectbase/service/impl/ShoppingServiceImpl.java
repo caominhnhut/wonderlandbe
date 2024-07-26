@@ -58,4 +58,24 @@ public class ShoppingServiceImpl implements ShoppingService{
 
         return shoppingCartMapper.fromShoppingCartEntity(shoppingSession);
     }
+
+    @Override
+    public ShoppingCart findById(Long cardId){
+        Optional<ShoppingSessionEntity> otpShoppingSession = shoppingSessionRepository.findById(cardId);
+
+        return otpShoppingSession
+                .map(shoppingSession -> shoppingCartMapper.fromShoppingCartEntity(shoppingSession))
+                .orElse(null);
+    }
+
+    @Override
+    public Boolean deleteById(Long cardId){
+        try{
+            shoppingSessionRepository.deleteById(cardId);
+            return Boolean.TRUE;
+        }catch(Exception e){
+            log.error("Cannot delete the cart {}", cardId);
+            return Boolean.FALSE;
+        }
+    }
 }
